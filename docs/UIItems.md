@@ -1,8 +1,7 @@
 ## UIItem Identification
-Managed UI applications have a mechanism for identifying controls by specifying them names. These names are available for finding controls on using UIAutomation API. Name property used while developing application show up as AutomationId when using UIA API.
-Un-managed applications donot have such feature. In these applications the controls are usually identified by text (white terminology) (name in UIA terminology).
+Managed UI applications have a mechanism to identify controls by specifying their names. With names the UIAutomation API is capable to find controls. When an application is developped, the name property is added to the controls and will show up as AutomationId when using UIA API. Un-managed applications do not have such feature. In these applications the controls are usually identified by their contained text (white terminology) (name in UIA terminology).
 
-Within a window any UIItem can be identified based combination following criteria.
+Within a window any UIItem can be identified based on a combination of the following criterias.
 
 1. **AutomationId** is the programmatic identifier specified by the AppDeveloper. In WinForm and WPF this is the name supplied to the control. This is not present for SWT and Win32 applications. (applies only to .NET applications WinForm, WPF, Silverlight.)
 For managed applications:
@@ -18,7 +17,7 @@ For managed applications:
 
 		Button button = window.Get<Button>("btnOK"); //<Button> acts as criteria as well as the return type
 		button = (Button) window.Get(SearchCriteria.ByAutomationId("btnOK").AndControlType(typeof(Button))); // same as above
-3. **ControlType** is the ControlType defined in UIAutomation. Since this is same as above these shouldn't be a reason to use this
+3. **ControlType** is the ControlType defined in UIAutomation. Since this is like the above there shouldn't be a reason to use it
 
 		button = (Button) window.Get(SearchCriteria.ByControlType(ControlType.Button).AndAutomationId("btnOK"));
 4. **Text** is the additional property defined for accessibility purposes. This property maps to some attribute on UIItem which is visible on the control. Find the detailed map here:
@@ -158,13 +157,13 @@ In order to select a TreeNode first find the node and call select method on it.
 	treeNode.IsExpanded; //Return the state expansion state
 
 ## DateTimePicker
-Currently it supports only Date and not the time. Since there is no native support for DateTimePicker in UIAutomation for setting the value, White uses keyboard to set the value. When the value is set it enters the value, without opening the calendar. Hence it is important for it to know the DateFormat.
+Currently for DateTimePicker White supports only Date and not the time since there is no native support for DateTimePicker in UIAutomation. To set the value, White uses the keyboard. When the value is set it enters the value, without opening the calendar. Hence it is important for it to know the DateFormat.
 There are two ways to set the date.
 
 	DateTimePicker dateTimePicker = window.Get<DateTimePicker>("dob");
 	dateTimePicker.Date = DateTime.Now.AddMonth(1);
 
-In this case DateTimePicker would use the configured DateFormat (in case no explicit configuration it uses default format based on the current culture).
+In this case DateTimePicker would use the configured DateFormat (in the situation there is no explicit configuration it uses default format based on the current culture).
 
 	DateTimePicker dateTimePicker = window.Get<DateTimePicker>("dob");
 	dateTimePicker.SetDate(DateTime.Now.AddMonth(1), DateFormat.YearDayMonth);
@@ -210,7 +209,7 @@ Used to control the splitter control, which can be slid by dragging the mouse.
 	thumb. SlideVertically(-15); //move the splitter 15 pixels up
 
 ## GroupBox/Panel
-Since GroupBox and Panel extend from UIItemContainer one can retrieve items from within groupbox or panel using:
+Since GroupBox and Panel extend from UIItemContainer one can retrieve items from within a groupbox or a panel using:
 
 	GroupBox groundBox = window.Get<GroupBox>("groupBox1");
 	Button button = groupBox.Get<Button>("button1"); //provides button which is inside the group box
@@ -221,7 +220,7 @@ Since GroupBox and Panel extend from UIItemContainer one can retrieve items from
 
 ## WPF Expander Control
 	// other imports
-	using White.Core.UIItems.WPFUIItems; //add this using allows one use Get and GetMultiple methods on any UIItem
+	using White.Core.UIItems.WPFUIItems; //adding this allows one to use Get and GetMultiple methods on any UIItem
 	namespace White.Core.UIItems.ListBoxItems
 	{
 	  [TestFixture]
@@ -238,4 +237,4 @@ Since GroupBox and Panel extend from UIItemContainer one can retrieve items from
 	  }
 	}
 
-It is recommended you create an abstraction for your expander. Since its structure is not a standard, white cannot provide the same.
+It is recommended to create an abstraction for your expander. Since its structure is not standard, white cannot provide the same.
